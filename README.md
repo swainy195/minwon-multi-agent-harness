@@ -129,7 +129,7 @@ npm run test
 
 ## HTML 실행 결과 예시
 
-아래 이미지는 GitHub README에서 바로 확인할 수 있는 HTML 실행 결과 화면입니다.
+아래 이미지는 GitHub README에서 바로 확인할 수 있는 HTML 화면 예시입니다. 입력 민원, 실행 상태, Agent 처리 결과, 시민 답변 초안, 검증 로그가 함께 표시됩니다.
 
 ![HTML 실행 결과 화면](docs/html-result.svg)
 
@@ -212,5 +212,6 @@ Browser HTML
 ```
 
 즉, OpenRouter는 Agent의 판단과 생성 작업을 수행하고, 로컬 하네스는 입력 수집, 실행 순서 제어, 검증 결과 취합, HTML 렌더링을 담당합니다.
+
 
 
