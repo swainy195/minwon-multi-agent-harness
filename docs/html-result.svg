@@ -1,0 +1,64 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="980" viewBox="0 0 1440 980" role="img" aria-labelledby="title desc">
+  <title id="title">민원 멀티 에이전트 하네스 HTML 실행 결과</title>
+  <desc id="desc">HTML 화면에서 민원을 입력하고 OpenRouter Agent로 하네스를 실행한 결과 예시</desc>
+  <rect width="1440" height="980" fill="#eef3f7"/>
+  <style>
+    .title{font:700 44px 'Segoe UI','Noto Sans KR',Arial,sans-serif;fill:#17202a}.body{font:400 21px 'Segoe UI','Noto Sans KR',Arial,sans-serif;fill:#546170}.h{font:700 24px 'Segoe UI','Noto Sans KR',Arial,sans-serif;fill:#0f172a}.small{font:700 14px 'Segoe UI','Noto Sans KR',Arial,sans-serif;fill:#0f766e}.text{font:400 18px 'Segoe UI','Noto Sans KR',Arial,sans-serif;fill:#273142}.mono{font:400 15px Consolas,monospace;fill:#eef8f6}.badge{font:700 18px 'Segoe UI','Noto Sans KR',Arial,sans-serif;fill:#b45309}.muted{font:400 17px 'Segoe UI','Noto Sans KR',Arial,sans-serif;fill:#5c6672}
+  </style>
+  <text x="48" y="74" class="title">민원 멀티 에이전트 하네스</text>
+  <text x="48" y="122" class="body">OpenRouter 기반 AI Agent들이 입력 → 처리 → 검증 → 출력 흐름으로 민원 업무를 처리한 HTML 실행 결과입니다.</text>
+
+  <g transform="translate(48 164)">
+    <g><rect width="312" height="122" rx="8" fill="#fff" stroke="#d9e0e7"/><rect width="312" height="5" rx="2" fill="#0f766e"/><text x="22" y="48" class="h">Input</text><text x="22" y="86" class="body">민원 원문과 선택 참고 정보</text></g>
+    <g transform="translate(336 0)"><rect width="312" height="122" rx="8" fill="#fff" stroke="#d9e0e7"/><rect width="312" height="5" rx="2" fill="#0f766e"/><text x="22" y="48" class="h">Processing</text><text x="22" y="86" class="body">Intake, Policy, Response Agent</text></g>
+    <g transform="translate(672 0)"><rect width="312" height="122" rx="8" fill="#fff" stroke="#d9e0e7"/><rect width="312" height="5" rx="2" fill="#0f766e"/><text x="22" y="48" class="h">Validation</text><text x="22" y="86" class="body">QA, Compliance Agent</text></g>
+    <g transform="translate(1008 0)"><rect width="312" height="122" rx="8" fill="#fff" stroke="#d9e0e7"/><rect width="312" height="5" rx="2" fill="#0f766e"/><text x="22" y="48" class="h">Output</text><text x="22" y="86" class="body">답변, 내부 메모, 후속 조치</text></g>
+  </g>
+
+  <g transform="translate(48 322)">
+    <rect width="1320" height="88" rx="8" fill="#fff" stroke="#d9e0e7"/>
+    <text x="22" y="53" class="h">실행 상태</text>
+    <rect x="148" y="27" width="138" height="36" rx="18" fill="#fff7ed"/>
+    <text x="170" y="51" class="badge">needs_follow_up</text>
+    <text x="314" y="51" class="text">Mode: openrouter / Flow: Input → Processing → Validation → Output</text>
+    <text x="1036" y="51" class="muted">하네스 실행 완료</text>
+  </g>
+
+  <g transform="translate(48 440)">
+    <rect width="1320" height="150" rx="8" fill="#fff" stroke="#d9e0e7"/>
+    <text x="22" y="45" class="h">Agent 구성 및 결과</text>
+    <g transform="translate(22 70)">
+      <rect width="202" height="56" rx="8" fill="#f4f7fa"/><text x="14" y="22" class="small">INTAKE</text><text x="14" y="45" class="text">핵심 쟁점 추출</text>
+      <rect x="218" width="202" height="56" rx="8" fill="#f4f7fa"/><text x="232" y="22" class="small">POLICY</text><text x="232" y="45" class="text">처리 기준 정리</text>
+      <rect x="436" width="202" height="56" rx="8" fill="#f4f7fa"/><text x="450" y="22" class="small">RESPONSE</text><text x="450" y="45" class="text">답변 초안 작성</text>
+      <rect x="654" width="202" height="56" rx="8" fill="#f4f7fa"/><text x="668" y="22" class="small">QA</text><text x="668" y="45" class="text">보강 필요 검증</text>
+      <rect x="872" width="202" height="56" rx="8" fill="#f4f7fa"/><text x="886" y="22" class="small">COMPLIANCE</text><text x="886" y="45" class="text">리스크 낮음</text>
+      <rect x="1090" width="202" height="56" rx="8" fill="#f4f7fa"/><text x="1104" y="22" class="small">ORCHESTRATOR</text><text x="1104" y="45" class="text">최종 결과 구성</text>
+    </g>
+  </g>
+
+  <g transform="translate(48 620)">
+    <rect width="642" height="214" rx="8" fill="#fff" stroke="#d9e0e7"/>
+    <text x="22" y="45" class="h">시민 답변 초안</text>
+    <rect x="22" y="68" width="598" height="114" fill="#f4f7fa"/>
+    <rect x="22" y="68" width="5" height="114" fill="#0f766e"/>
+    <text x="42" y="99" class="text">안녕하세요. 문의하신 민원 처리 지연으로 불편을 드려 죄송합니다.</text>
+    <text x="42" y="130" class="text">현재 정확한 처리 단계와 예상 답변 일자는 담당 부서 확인이 필요합니다.</text>
+    <text x="42" y="161" class="text">확인되는 즉시 처리 현황과 향후 일정을 안내드리겠습니다.</text>
+  </g>
+
+  <g transform="translate(726 620)">
+    <rect width="642" height="214" rx="8" fill="#fff" stroke="#d9e0e7"/>
+    <text x="22" y="45" class="h">검증 로그 / 후속 조치</text>
+    <text x="32" y="90" class="text">• 담당 부서의 최신 처리 상태 확인 필요</text>
+    <text x="32" y="124" class="text">• 실제 답변 예정일 확인 필요</text>
+    <text x="32" y="158" class="text">• 시민 답변 발송 전 구체 정보 보강 필요</text>
+  </g>
+
+  <g transform="translate(48 864)">
+    <rect width="1320" height="84" rx="8" fill="#fff" stroke="#d9e0e7"/>
+    <text x="22" y="36" class="h">결과 JSON</text>
+    <rect x="188" y="18" width="1102" height="48" rx="8" fill="#17202a"/>
+    <text x="210" y="49" class="mono">{ "mode": "openrouter", "flow": "Input -> Processing -> Validation -> Output", "status": "needs_follow_up" }</text>
+  </g>
+</svg>

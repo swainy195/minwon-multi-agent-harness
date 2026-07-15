@@ -4,6 +4,8 @@
 
 이 프로젝트는 pixel-agent나 캐릭터 중심 구조를 제거하고, AI Agent가 민원 업무를 어떻게 나누어 처리하는지 보여주는 데 집중합니다. HTML 화면에서 민원을 입력하면 `Input -> Processing -> Validation -> Output` 흐름으로 Agent 실행 결과를 확인할 수 있습니다.
 
+![민원 멀티 에이전트 하네스 HTML 실행 결과](docs/html-result.svg)
+
 ## 하네스 주제
 
 민원 처리 업무를 위한 AI 멀티 에이전트 하네스
@@ -127,6 +129,10 @@ npm run test
 
 ## HTML 실행 결과 예시
 
+아래 이미지는 GitHub README에서 바로 확인할 수 있는 HTML 실행 결과 화면입니다.
+
+![HTML 실행 결과 화면](docs/html-result.svg)
+
 현재 HTML 화면에서 하네스를 실행하면 다음 영역들이 채워집니다.
 
 ```text
@@ -206,3 +212,5 @@ Browser HTML
 ```
 
 즉, OpenRouter는 Agent의 판단과 생성 작업을 수행하고, 로컬 하네스는 입력 수집, 실행 순서 제어, 검증 결과 취합, HTML 렌더링을 담당합니다.
+
+
