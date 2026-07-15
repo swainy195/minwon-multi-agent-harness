@@ -1,0 +1,126 @@
+﻿<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>민원 멀티 에이전트 하네스</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: "Segoe UI", "Noto Sans KR", Arial, sans-serif; background: #eef3f7; color: #17202a; }
+    main { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 32px 0; }
+    h1 { margin: 0 0 8px; font-size: 38px; } h2 { margin: 0 0 14px; font-size: 20px; } h3 { margin: 0 0 6px; font-size: 16px; }
+    p { line-height: 1.6; color: #5c6672; } label { display:block; margin: 0 0 6px; font-weight: 700; }
+    textarea, input, select { width: 100%; padding: 12px; border: 1px solid #d9e0e7; border-radius: 8px; font: inherit; }
+    textarea { min-height: 120px; resize: vertical; }
+    button { min-height: 42px; padding: 0 18px; border: 0; border-radius: 8px; background: #0f766e; color: white; font-weight: 700; cursor: pointer; }
+    button:disabled { opacity: .6; cursor: wait; }
+    .flow, .grid, .agents, .form-grid { display: grid; gap: 12px; }
+    .flow { grid-template-columns: repeat(4, 1fr); margin: 24px 0; }
+    .grid { grid-template-columns: 1fr 1fr; align-items: start; }
+    .form-grid { grid-template-columns: 260px 1fr; gap: 14px 18px; }
+    .wide, .input-card, .form-full, .form-actions { grid-column: 1 / -1; }
+    .card { background: white; border: 1px solid #d9e0e7; border-radius: 8px; padding: 16px; }
+    .flow .card { border-top: 4px solid #0f766e; }
+    .status-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .status-main { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .status { display: inline-block; padding: 6px 10px; border-radius: 999px; background: #fff7ed; color: #b45309; font-weight: 700; }
+    .status-message { margin: 0; color: #5c6672; }
+    .status-actions { margin: 0; padding-left: 18px; display: flex; gap: 18px; flex-wrap: wrap; }
+    .agents { grid-template-columns: repeat(3, 1fr); }
+    .agent { background: #f4f7fa; }
+    .reply { white-space: pre-wrap; padding: 14px; border-left: 4px solid #0f766e; background: #f4f7fa; line-height: 1.7; }
+    pre { white-space: pre-wrap; background: #17202a; color: #eef8f6; padding: 16px; border-radius: 8px; overflow: auto; }
+    small { color: #0f766e; font-weight: 700; text-transform: uppercase; }
+    @media(max-width:900px){ .flow, .grid, .agents, .form-grid { grid-template-columns: 1fr; } .status-bar { align-items: flex-start; flex-direction: column; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>민원 멀티 에이전트 하네스</h1>
+  <p>민원을 입력하면 OpenRouter 기반 AI Agent들이 입력 → 처리 → 검증 → 출력 흐름으로 업무를 처리합니다.</p>
+
+  <section class="flow">
+    <div class="card"><strong>Input</strong><p>민원 원문과 선택 참고 정보</p></div>
+    <div class="card"><strong>Processing</strong><p>Intake, Policy, Response Agent</p></div>
+    <div class="card"><strong>Validation</strong><p>QA, Compliance Agent</p></div>
+    <div class="card"><strong>Output</strong><p>답변, 내부 메모, 후속 조치</p></div>
+  </section>
+
+  <section class="grid">
+    <div class="card input-card">
+      <h2>민원 입력</h2>
+      <div class="form-grid">
+        <div><label for="category">민원 유형</label><input id="category" value="processing-delay"></div>
+        <div><label for="mode">실행 모드</label><select id="mode"><option value="openrouter">OpenRouter Agent</option><option value="local">Local fallback</option></select></div>
+        <div class="form-full"><label for="complaint">민원 내용</label><textarea id="complaint">지난달에 제출한 민원 신청이 아직 처리되지 않았습니다. 왜 지연되는지, 언제 답변을 받을 수 있는지 알려주세요.</textarea></div>
+        <div class="form-full"><label for="history">참고 정보 선택 입력</label><textarea id="history" placeholder="예: 접수일, 담당 부서, 이전 답변, 보완 요청, 첨부자료 정보 등. 실제 정보가 없으면 비워두세요."></textarea></div>
+        <div class="form-actions"><button id="run" type="button">하네스 실행</button></div>
+      </div>
+    </div>
+
+    <div class="card wide status-bar">
+      <div class="status-main"><strong>실행 상태</strong><span class="status" id="status">대기 중</span><span id="modeText">Mode: - / Flow: -</span></div>
+      <p class="status-message" id="message">서버 실행 후 버튼을 누르세요.</p>
+    </div>
+
+    <div class="card wide"><h2>후속 조치</h2><ul class="status-actions" id="nextActions"><li>아직 실행 전입니다.</li></ul></div>
+    <div class="card wide"><h2>Agent 구성 및 결과</h2><div class="agents" id="agents"></div></div>
+    <div class="card"><h2>시민 답변 초안</h2><div class="reply" id="reply">아직 실행 전입니다.</div></div>
+    <div class="card"><h2>검증 로그</h2><ul id="validation"></ul></div>
+    <div class="card wide"><h2>결과 JSON</h2><pre id="json">{}</pre></div>
+  </section>
+</main>
+<script>
+function esc(value) { return String(value || '').replace(/[<>&]/g, function(c){ return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c]; }); }
+function render(result) {
+  document.getElementById('status').textContent = result.output.status;
+  document.getElementById('modeText').textContent = 'Mode: ' + result.mode + ' / Flow: ' + result.flow;
+  document.getElementById('reply').textContent = result.output.citizenReply;
+  document.getElementById('json').textContent = JSON.stringify(result, null, 2);
+  var agentData = [result.processing.intake, result.processing.policy, result.processing.response, result.validation.qa, result.validation.compliance, {agent:'Orchestrator',stage:'control',summary:'Agent 산출물을 연결하고 최종 결과를 구성'}];
+  document.getElementById('agents').innerHTML = agentData.map(function(a){
+    var text = a.summary || a.citizenReplyDraft || a.riskLevel || JSON.stringify(a);
+    return '<div class="card agent"><small>' + esc(a.stage || 'stage') + '</small><h3>' + esc(a.agent || 'Agent') + '</h3><p>' + esc(text) + '</p></div>';
+  }).join('');
+  var items = result.output.validationLog || [];
+  document.getElementById('validation').innerHTML = items.map(function(i){ return '<li><strong>' + esc(i.name) + '</strong>: ' + (i.passed ? '통과' : '확인 필요') + ' - ' + esc(i.detail) + '</li>'; }).join('');
+  document.getElementById('nextActions').innerHTML = (result.output.nextActions || []).map(function(action){ return '<li>' + esc(action) + '</li>'; }).join('') || '<li>없음</li>';
+}
+async function runHarness() {
+  var button = document.getElementById('run');
+  var message = document.getElementById('message');
+  button.disabled = true;
+  var startedAt = Date.now();
+  var timer = setInterval(function(){ message.textContent = 'Agent 실행 중... ' + Math.floor((Date.now() - startedAt) / 1000) + '초 경과 / 최대 90초 정도 걸릴 수 있습니다.'; }, 1000);
+  message.textContent = 'Agent 실행 중입니다. OpenRouter 호출은 보통 20~90초 걸립니다. 창을 닫지 마세요.';
+  try {
+    var controller = new AbortController();
+    var timeout = setTimeout(function(){ controller.abort(); }, 120000);
+    var response = await fetch('/api/run', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        category: document.getElementById('category').value,
+        citizenMessage: document.getElementById('complaint').value,
+        history: document.getElementById('history').value.split('\n').map(function(x){ return x.trim(); }).filter(Boolean),
+        mode: document.getElementById('mode').value
+      }),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+    var data = await response.json();
+    if (!response.ok) throw new Error(data.error || '실행 실패');
+    render(data);
+    message.textContent = '하네스 실행 완료: ' + new Date().toLocaleString();
+  } catch (error) {
+    message.textContent = '오류: ' + (error.name === 'AbortError' ? 'OpenRouter 응답 시간이 120초를 넘었습니다. 다시 시도하거나 Local fallback을 선택하세요.' : error.message + ' / npm run serve로 열었는지 확인하세요.');
+  } finally {
+    clearInterval(timer);
+    button.disabled = false;
+  }
+}
+document.getElementById('run').addEventListener('click', runHarness);
+</script>
+</body>
+</html>
+

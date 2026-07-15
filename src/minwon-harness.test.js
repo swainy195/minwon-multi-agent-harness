@@ -1,0 +1,11 @@
+﻿const assert = require("node:assert/strict");
+const { orchestrate } = require("./minwon-harness");
+const result = orchestrate();
+assert.equal(result.flow, "Input -> Processing -> Validation -> Output");
+assert.ok(result.processing.intake.summary.includes("처리 지연"));
+assert.ok(result.processing.policy.criteria.length >= 3);
+assert.ok(result.output.citizenReply.includes("담당 부서"));
+assert.equal(result.validation.compliance.passed, true);
+assert.equal(result.output.status, "needs_follow_up");
+assert.ok(result.output.nextActions.length > 0);
+console.log("minwon harness test passed");

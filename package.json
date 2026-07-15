@@ -1,0 +1,17 @@
+﻿{
+    "name":  "minwon-multi-agent-harness",
+    "version":  "1.0.0",
+    "description":  "Complaint handling multi-agent harness with input, processing, validation, and output flow.",
+    "license":  "MIT",
+    "type":  "commonjs",
+    "scripts":  {
+                    "demo":  "node src/minwon-harness.js",
+                    "test":  "node src/minwon-harness.test.js",
+                    "test:harness":  "node src/minwon-harness.test.js",
+                    "demo:openrouter":  "node src/minwon-harness.js --openrouter",
+                    "serve":  "node src/server.js"
+                },
+    "bin":  {
+                "minwon-harness":  "./src/minwon-harness.js"
+            }
+}

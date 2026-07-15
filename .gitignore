@@ -1,0 +1,5 @@
+﻿.env
+node_modules/
+npm-debug.log*
+openrouter-result.json
+.DS_Store
